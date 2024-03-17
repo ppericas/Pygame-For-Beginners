@@ -26,6 +26,7 @@ font = pygame.font.SysFont('Arial', 48)
 text = "actividad 09"
 text_surface = font.render(text, True, BLACK)
 text_rect = text_surface.get_rect(center=(WIDTH//2, HEIGHT//2))
+angle = 0
 
 ## others
 FPS = 60
@@ -34,7 +35,9 @@ FPS = 60
 # class & functions
 def draw_window():
     WIN.fill(WHITE)
-    WIN.blit(text_surface, text_rect)
+    rotated_text = pygame.transform.rotate(text_surface, angle)
+    rotated_rect = rotated_text.get_rect(center=text_rect.center)
+    WIN.blit(rotated_text, rotated_rect)
     pygame.display.update()
  
 def change_caps(text):
@@ -43,11 +46,14 @@ def change_caps(text):
     elif text.isupper():
         return text.lower()
     return text
+def rotate(text):
+    text = pygame.transform.rotate(text_rect, angle)
+    return text
 
 #----------------------------------------------------------------------------------------------------------------------
 # main function
 def main():
-    global text_surface
+    global text_surface, angle
     clock = pygame.time.Clock()
     text = "actividad 09"
     run = True
@@ -61,6 +67,7 @@ def main():
                 if event.key == K_SPACE:
                     text = change_caps(text)
                     text_surface = font.render(text, True, BLACK)
+                    angle += 90
         
         draw_window()
     
